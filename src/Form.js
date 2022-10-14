@@ -1,70 +1,61 @@
-import React, { useState } from "react";
-const Form = () => {
-  const data = { name: "", email: "", password: "" };
-  const [inputData, setInputData] = useState(data);
+import React, { useState, useEffect } from 'react'
 
-  function handleData(e) {
-    setInputData({ ...inputData, [e.target.name]: e.target.value });
-  }
+export default function Form() {
+    const data = { name: "", email: "", password: "" };
+    const [inputData, setInputData] = useState(data)
+    const [flag, setFlag] = useState(false)
+    useEffect(() =>{
+        console.log("Registered")
+    }, [flag])
+    console.log(inputData)
 
-  console.log(inputData);
-
-  function handleSubmit(e) {
-    if (!inputData.name || !inputData.email || !inputData.password) {
-      alert("All Input Fields are Mandatory");
-    } else {
-      setFlag(true);
+    
+    function handleData(e){
+        setInputData({...inputData, [e.target.name]: 
+            e.target.value})
     }
-  }
+    function handleSubmit(e){
+        e.preventDefault();
+         if(!inputData.name || !inputData.email || !inputData.password){
+            alert("All Input Fields are Mandatory")
+        }
+        else{
+            setFlag(true)
+        }
+    }
+    return (
+        <>
+        <pre>{(flag)?<h2 className='ui-define'>Hello {inputData.name}, You've Registered Successfully</h2>:""}</pre>
 
-  const [flag,setFlag] = useState(false);
+        
+    
+    <form className='container' onSubmit={handleSubmit}>
+        <div className="header">
+                <h1>
+                    Registration Form
+                </h1>
+            </div>
+            <div>
+                <input type="text" placeholder='Enter your name' name='name' value={inputData.name} onChange={handleData}>
 
-  return (
-    <form className="container" onSubmit={handleSubmit}>
-      <pre>
-        {flag ? (
-          <h2 className="ui-define">
-            Hello {inputData.name}, You've Registered Successfully
-          </h2>
-        ) : (
-          ""
-        )}
-      </pre>
-      <div className="header">
-        <h1>Registration form </h1>
-      </div>
-      <div>
-        <input
-          type="text"
-          placeholder="Enter Your Name"
-          name="name"
-          value={inputData.name}
-          onChange={handleData}
-        ></input>
-      </div>
-      <div>
-        <input
-          type="text"
-          placeholder="Enter Your Email"
-          name="email"
-          value={inputData.email}
-          onChange={handleData}
-        ></input>
-      </div>
-      <div>
-        <input
-          type="password"
-          placeholder="Enter Your Password"
-          name="password"
-          value={inputData.password}
-          onChange={handleData}
-        ></input>
-        <br/>
-        <br/>
-        <button type="submit">Submit</button>
-      </div>
-    </form>
-  );
-};
+                </input>
+            </div>
+            <div>
+                <input type="text" placeholder='Enter your email' name='email' value={inputData.email} onChange={handleData}>
 
-export default Form;
+                </input>
+            </div>
+            <div>
+                <input type="text" placeholder='Enter your password' name='password' value={inputData.password} onChange={handleData}>
+
+                </input>
+            </div>
+            <div>
+                <button type='submit'>Submit</button>
+            </div>
+            
+        </form>
+        </>
+
+    )
+}
